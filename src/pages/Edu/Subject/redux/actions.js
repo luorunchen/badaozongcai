@@ -1,13 +1,15 @@
 import {
   reqGetSubjectList,
   reqGetSecSubjectList,
-  reqUpdateSecSubjectList
+  reqUpdateSecSubjectList,
+  reqDelSubjectList
 } from '@api/edu/Subject'
 
 import {
   GET_SUBJECT_LIST,
   GET_SECSUBJECT_LIST,
-  GET_UPDATESUBJECT_LIST
+  GET_UPDATESUBJECT_LIST,
+  DELSUBJECT_LIST
 } from './constants'
 // import { response } from 'express'
 
@@ -59,9 +61,9 @@ export const UpdateSubjectList = (id, title) => {
   }
 }
 
-// //同步删除actions
+//同步删除actions
 // const GetDelSubjectSync = data => ({
-//   type: GET_DELSUBJECT_LIST,
+//   type: DELSUBJECT_LIST,
 //   data
 // })
 // //异步删除action
@@ -69,7 +71,7 @@ export const UpdateSubjectList = (id, title) => {
 //   return dispatch => {
 //     return reqDelSubjectList(id).then(res => {
 //       dispatch(GetDelSubjectSync(id))
-//       return response
+//       return res
 //     })
 //   }
 // }

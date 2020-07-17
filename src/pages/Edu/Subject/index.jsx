@@ -15,43 +15,12 @@ import {
   UpdateSubjectList
 } from './redux/index'
 
-// const data = [
-//   {
-//     key: 1,
-//     name: 'John Brown',
-//     age: 32,
-//     address: 'New York No. 1 Lake Park',
-//     description:
-//       'My name is John Brown, I am 32 years old, living in New York No. 1 Lake Park.',
-//   },
-//   {
-//     key: 2,
-//     name: 'Jim Green',
-//     age: 42,
-//     address: 'London No. 1 Lake Park',
-//     description:
-//       'My name is Jim Green, I am 42 years old, living in London No. 1 Lake Park.',
-//   },
-//   {
-//     key: 3,
-//     name: 'Not Expandable',
-//     age: 29,
-//     address: 'Jiangsu No. 1 Lake Park',
-//     description: 'This not expandable',
-//   },
-//   {
-//     key: 4,
-//     name: 'Joe Black',
-//     age: 32,
-//     address: 'Sidney No. 1 Lake Park',
-//     description:
-//       'My name is Joe Black, I am 32 years old, living in Sidney No. 1 Lake Park.',
-//   },
-// ]
+// 导入删除课程分类的方法
+import { reqDelSubjectList } from '@api/edu/Subject'
 
 //通过pormise可以获取subjecetList属性
 // { GetSubjectList }是connect重新封装的函数
-@connect(state => ({ subjecrList: state.subjectList }), {
+@connect(state => ({ subjectList: state.subjectList }), {
   GetSubjectList,
   GetSecSubjectList,
   UpdateSubjectList
@@ -59,6 +28,7 @@ import {
 class Subject extends Component {
   //直接给组件
   currentPage = 1
+  pageSize = 10
 
   state = {
     subjectId: '',
@@ -102,10 +72,10 @@ class Subject extends Component {
   // record-->表示相应行的数据
   handleclickExpand = (expand, record) => {
     //判断如果是展开就请求二级菜单数据
-    console.log(expand, record)
+    // console.log(expand, record)
     if (expand) {
       //请求二级菜单数据
-      console.log('123', record._id)
+      // console.log('123', record._id)
       this.props.GetSecSubjectList(record._id)
     }
   }
@@ -165,14 +135,30 @@ class Subject extends Component {
   }
 
   //删除按钮
-  handleDeleClick = value => {
+  handleDeleClick = value => () => {
+    // console.log(value)
     Modal.confirm({
       title: '确定要删除嘛?',
       // icon: <ExclamationCircleOutlined />,
       cancelText: '取消',
       okText: '确定',
-      onOk() {
-        console.log('OK')
+      onOk: async () => {
+        await reqDelSubjectList(value._id)
+        message.success('删除成功')
+
+        // console.log(this.props.subjcetList.total)
+        // 最后一页删除,请求上一页数据
+        const totalpage = Math.ceil(
+          this.props.subjectList.total / this.pageSize
+        )
+        console.log(totalpage)
+        if (
+          this.currentPage !== 1 &&
+          this.props.subjectList.items.length === 1 &&
+          totalpage === this.currentPage
+        )
+          //重新请求获取数据
+          this.props.GetSubjectList(this.currentPage, this.pageSize)
       }
     })
   }
@@ -231,7 +217,7 @@ class Subject extends Component {
                 </Button>
               </Tooltip>
               <Tooltip title='删除章节'>
-                <Button type='danger' onClick={this.handleDeleClick}>
+                <Button type='danger' onClick={this.handleDeleClick(value)}>
                   <DeleteOutlined />
                 </Button>
               </Tooltip>
@@ -256,7 +242,7 @@ class Subject extends Component {
         <Table
           rowKey='_id'
           pagination={{
-            total: this.props.subjecrList.total, //total表示数据总数
+            total: this.props.subjectList.total, //total表示数据总数
             showQuickJumper: true, //是否显示快速跳转
             showSizeChanger: true, // 是否显示修改每页显示数据数量
             pageSizeOptions: ['5', '10', '15', '20'], //设置每天显示数据数量的配置项
@@ -281,7 +267,7 @@ class Subject extends Component {
             onExpand: this.handleclickExpand
           }}
           //展示里面的数据
-          dataSource={this.props.subjecrList.items}
+          dataSource={this.props.subjectList.items}
         />
       </div>
     )

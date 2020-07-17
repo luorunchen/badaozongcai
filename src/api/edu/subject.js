@@ -15,7 +15,7 @@ export function reqGetSubjectList(page, limit) {
 
 // 获取二级课程分类
 export function reqGetSecSubjectList(parentId) {
-  console.log(parentId)
+  // console.log(parentId)
   //返回一个promise
   return request({
     // /admin/edu/subject/get/:parentId
@@ -39,14 +39,6 @@ export function reqAddSecSubjectList(title, parentId) {
   })
 }
 
-export function reqDelSubjectList(id) {
-  return request({
-    url: `${BASE_URL}/remove/:id`,
-    method: 'DELETE',
-    data: id
-  })
-}
-
 //定义修改课程分类title的方法
 export function reqUpdateSecSubjectList(id, title) {
   // console.log(parentId)
@@ -59,5 +51,13 @@ export function reqUpdateSecSubjectList(id, title) {
       id,
       title
     }
+  })
+}
+
+//删除课程分类方法
+export function reqDelSubjectList(id) {
+  return request({
+    url: `${BASE_URL}/remove/${id}`,
+    method: 'DELETE'
   })
 }
