@@ -15,7 +15,7 @@ import relativeTime from 'dayjs/plugin/relativeTime'
 
 import { connect } from 'react-redux'
 import SearchForm from './SearchForm'
-
+import { getLessonList } from './redux'
 import './index.less'
 
 dayjs.extend(relativeTime)
@@ -28,7 +28,8 @@ dayjs.extend(relativeTime)
     //   "Course"
     // )
     chapteList: state.chapterList
-  })
+  }),
+  { getLessonList }
   // { getcourseList }
 )
 class Chapter extends Component {
@@ -93,9 +94,11 @@ class Chapter extends Component {
 
   //点击+号事件处理函数
   // expand-->true为展开
-  handleExpand = expand => {
+  handleExpand = (expand, record) => {
     //发送请求获取数据
-    console.log(expand)
+    // console.log(expand)
+    // console.log(record)
+    this.props.getLessonList(record._id)
   }
 
   render() {

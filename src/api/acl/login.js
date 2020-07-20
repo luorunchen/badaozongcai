@@ -1,38 +1,49 @@
-import request from "@utils/request";
+import request from '@utils/request'
 
-const BASE_URL = "/admin/acl/index";
+const BASE_URL = '/admin/acl/index'
 
 // 获取菜单权限数据
 export function getMenu() {
   return request({
     url: `${BASE_URL}/menu`,
-    method: "GET",
-  });
+    method: 'GET'
+  })
 }
 
 export function getInfo() {
   return request({
     url: `${BASE_URL}/info`,
-    method: "GET",
-  });
+    method: 'GET'
+  })
 }
 
 // 登录
 export function reqLogin(username, password) {
   return request({
     url: `${BASE_URL}/login`,
-    method: "post",
+    method: 'post',
     data: {
       username,
-      password,
-    },
-  });
+      password
+    }
+  })
 }
 
 // 登出
 export function reqLogout() {
   return request({
     url: `${BASE_URL}/logout`,
-    method: "post",
-  });
+    method: 'post'
+  })
+}
+
+export function reqMobileLogin(mobile, code) {
+  return request({
+    url: '/oauth/mobile',
+    method: 'POST',
+    data: {
+      mobile,
+      code
+    }
+  })
 }
