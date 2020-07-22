@@ -1,6 +1,12 @@
-import Login from '@pages/Login'
-import NotFound from '@pages/404'
-import Oauth from '@pages/Login/components/Oauth'
+// import Login from '@pages/Login'
+// import NotFound from '@pages/404'
+// import Oauth from '@pages/Login/components/Oauth'
+import { lazy } from 'react'
+
+// lazy实现了懒加载,组件使用时才会加载
+const Login = lazy(() => import(/*webpackChunkName: 'Login'*/ '@pages/Login'))
+const NotFound = lazy(() => import('@pages/404'))
+const Oauth = lazy(() => import('@pages/Login/components/Oauth'))
 
 //#region
 /* export const asyncRoutes = [
@@ -215,7 +221,8 @@ export const defaultRoutes = [
     path: '/',
     component: 'Admin',
     icon: 'home',
-    name: '后台管理系统'
+    name: '后台管理系统',
+    hidden: false
   }
   // { path: "*", redirect: "/404", component: NotFound, hidden: true }
 ]

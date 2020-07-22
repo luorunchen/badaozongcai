@@ -1,4 +1,5 @@
-import user from "./reducers";
-import { getAccessRoutes, getUserInfo, resetUser } from "./actions";
+import { getUserinfo, getMenu1 } from './actions'
+import user from './reducer.js'
+// console.log(user)
 
-export { getAccessRoutes, user, getUserInfo, resetUser };
+export { user, getUserinfo, getMenu1 }

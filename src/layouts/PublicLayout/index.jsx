@@ -1,11 +1,11 @@
-import React, { Component } from "react";
-import { Switch, Route } from "react-router-dom";
+import React, { Component, Suspense } from 'react'
+import { Switch, Route } from 'react-router-dom'
 
-import { constantRoutes } from "@conf/routes";
+import { constantRoutes } from '@conf/routes'
 
 class PublicLayout extends Component {
-  renderRoute = (routes) => {
-    return routes.map((route) => {
+  renderRoute = routes => {
+    return routes.map(route => {
       return (
         <Route
           key={route.path}
@@ -13,13 +13,17 @@ class PublicLayout extends Component {
           component={route.component}
           exact={true}
         />
-      );
-    });
-  };
+      )
+    })
+  }
 
   render() {
-    return <Switch>{this.renderRoute(constantRoutes)}</Switch>;
+    return (
+      <Suspense fallback={<div>loading....</div>}>
+        <Switch>{this.renderRoute(constantRoutes)}</Switch>
+      </Suspense>
+    )
   }
 }
 
-export default PublicLayout;
+export default PublicLayout

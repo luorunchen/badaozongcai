@@ -52,7 +52,7 @@ function LoginForm(props) {
       //校验手机登录
       form.validateFields(['phone', 'verify']).then(res => {
         let { phone, verify } = res
-        console.log(res)
+        // console.log(res)
         props.mobileLogin(phone, verify).then(token => {
           // 登录成功
           // console.log('登陆成功~')
@@ -76,6 +76,7 @@ function LoginForm(props) {
     setActiveKey(activeKey)
   }
 
+  // 验证
   const validatord = (rules, value) => {
     return new Promise((res, rej) => {
       if (!value) {
